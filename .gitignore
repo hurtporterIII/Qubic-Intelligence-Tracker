@@ -1,0 +1,19 @@
+# OS / editor junk
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+
+# Node / dependency folders (if used later)
+node_modules/
+dist/
+build/
+
+# Environment / secrets
+.env
+.env.*
+*.env
+
+# n8n local data (not needed in repo)
+.n8n/
