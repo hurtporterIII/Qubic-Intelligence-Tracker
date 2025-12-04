@@ -1,8 +1,0 @@
-{
-  "fields": {
-    "Name": "text",
-    "Amount": "number",
-    "USD_Value": "number",
-    "Is_Whale": "checkbox"
-  }
-}
