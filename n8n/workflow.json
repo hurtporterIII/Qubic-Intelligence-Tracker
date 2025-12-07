@@ -1,12 +1,315 @@
 {
-  "name": "WhaleTrack-AI – Qubic Whale Alerts",
-  "nodes": [],
-  "connections": {},
-  "settings": {
-    "executionOrder": "v1"
+  "name": "Qubic Intelligence Tracker",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "intelligence-alert",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -752,
+        -16
+      ],
+      "id": "e9e935ec-dbee-4cf4-b530-53a3847a9509",
+      "name": "Webhook",
+      "webhookId": "19f8f51e-1158-4047-83bf-437399ab0c85"
+    },
+    {
+      "parameters": {
+        "jsCode": "// THIS IS THE FINAL WORKING CODE — DO NOT CHANGE A SINGLE CHARACTER\nconst input = items[0].json;\n\n// Force the numbers and make sure they exist\nconst cycles = Number(input.compute_cycles) || 0;\nconst accuracy = Number(input.model_accuracy) || 0;\nconst cost = Number(input.usd_cost_estimate) || 0;\n\nlet tier = \"SMALL\";\nlet insight = \"Minor model\";\n\nif (cycles >= 50000000000 && accuracy >= 0.95) {\n  tier = \"GOD MODE WHALE 🐳💀\";\n  insight = \"This thing could predict floods or solve murders\";\n} else if (cycles >= 20000000000 && accuracy >= 0.90) {\n  tier = \"HIGH IMPACT WHALE 🐳🔥\";\n  insight = \"Vision, language, or heavy pattern model\";\n}\n\nreturn [\n  {\n    json: {\n      job_id: input.job_id || \"no-id\",\n      miner_address: input.miner_address || \"unknown-miner\",\n      cycles_billions: Math.round(cycles / 1000000000).toFixed(1),\n      accuracy_percent: (accuracy * 100).toFixed(1),\n      usd_cost_estimate: cost.toFixed(2),\n      whale_tier: tier,\n      insight: insight\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1152,
+        -48
+      ],
+      "id": "24e47759-2d5e-4d18-8e45-b805cdbea168",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1q5C9DRWusuHnayNwbbVJcJVePzovZNDkpi2y53xJTtY",
+          "mode": "list",
+          "cachedResultName": "WhaleLog",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1q5C9DRWusuHnayNwbbVJcJVePzovZNDkpi2y53xJTtY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1q5C9DRWusuHnayNwbbVJcJVePzovZNDkpi2y53xJTtY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ $now.toISO() }}\n\n\n",
+            "whale_tier": "={{$json.whale_tier}}",
+            "insight": "={{$json.insight}}",
+            "miner_address": "={{$json.miner_address}}",
+            "cycles_billions": "={{$json.cycles_billions}}",
+            "accuracy_percent": "={{$json.accuracy_percent}}",
+            "usd_cost_estimate": "={{$json.usd_cost_estimate}}",
+            "job_id": "={{$json.job_id}}"
+          },
+          "matchingColumns": [
+            "timestamp | whale_tier | insight | miner_address | cycles_billions | accuracy_percent | usd_cost_estimate | job_id"
+          ],
+          "schema": [
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "whale_tier",
+              "displayName": "whale_tier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "insight",
+              "displayName": "insight",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "miner_address",
+              "displayName": "miner_address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "cycles_billions",
+              "displayName": "cycles_billions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "accuracy_percent",
+              "displayName": "accuracy_percent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "usd_cost_estimate",
+              "displayName": "usd_cost_estimate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "job_id",
+              "displayName": "job_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -240,
+        -80
+      ],
+      "id": "7ef2e670-9fdb-4849-9aee-86363f44d389",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "rv67UCeM9xpZ2IwY",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://discord.com/api/webhooks/1446998676798050336/HPxkYrB-sPDYiS_Bq4XCCBTRDmw7GDdvdjyjXi6WLpVtg0ATUe-mKQ7akLLqbrNrR0gx",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"content\": null,\n  \"embeds\": [\n    {\n      \"title\": \"GOD MODE WHALE DETECTED 🐳💀\",\n      \"color\": 16711680,\n      \"fields\": [\n        {\n          \"name\": \"Miner\",\n          \"value\": \"{{ $json.miner_address }}\",\n          \"inline\": true\n        },\n        {\n          \"name\": \"Cycles\",\n          \"value\": \"{{ $json.cycles_billions }}B\",\n          \"inline\": true\n        },\n        {\n          \"name\": \"Accuracy\",\n          \"value\": \"{{ $json.accuracy_percent }}%\",\n          \"inline\": true\n        },\n        {\n          \"name\": \"Cost\",\n          \"value\": \"${{ $json.usd_cost_estimate }}\",\n          \"inline\": true\n        },\n        {\n          \"name\": \"Insight\",\n          \"value\": \"{{ $json.insight }}\",\n          \"inline\": false\n        },\n        {\n          \"name\": \"Job\",\n          \"value\": \"[View on Explorer](https://explorer.qubic.org/job/{{ $json.job_id }})\",\n          \"inline\": false\n        }\n      ],\n      \"timestamp\": \"{{ $now }}\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -272,
+        112
+      ],
+      "id": "4b963db9-2f7b-4586-84bc-c6258056ed8b",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n  \"timestamp\": \"{{$moment().toISOString()}}\",\n  \"whale_tier\": \"GOD MODE WHALE 🐳💀\",\n  \"miner_address\": \"TEMPLE-RIG-01\",\n  \"cycles_billions\": 62,\n  \"accuracy_percent\": 98.7,\n  \"usd_cost_estimate\": 11.50,\n  \"insight\": \"This thing could predict floods or solve murders\",\n  \"job_id\": \"qubic-1337\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -496,
+        0
+      ],
+      "id": "a6d15cf9-215b-47f6-ac5b-5d0cbe0baeec",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1q5C9DRWusuHnayNwbbVJcJVePzovZNDkpi2y53xJTtY",
+          "mode": "list",
+          "cachedResultName": "WhaleLog",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1q5C9DRWusuHnayNwbbVJcJVePzovZNDkpi2y53xJTtY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1q5C9DRWusuHnayNwbbVJcJVePzovZNDkpi2y53xJTtY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [
+            "timestamp | whale_tier | insight | miner_address | cycles_billions | accuracy_percent | usd_cost_estimate | job_id"
+          ],
+          "schema": [
+            {
+              "id": "timestamp | whale_tier | insight | miner_address | cycles_billions | accuracy_percent | usd_cost_estimate | job_id",
+              "displayName": "timestamp | whale_tier | insight | miner_address | cycles_billions | accuracy_percent | usd_cost_estimate | job_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1152,
+        96
+      ],
+      "id": "048505b1-f842-4100-8d0b-708cf7c7a0f2",
+      "name": "Append row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "rv67UCeM9xpZ2IwY",
+          "name": "Google Sheets account 3"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        []
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        []
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
   },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "4d3b77a4-124b-4e8a-9f0f-d26b521ea49c",
   "meta": {
-    "description": "Placeholder export file for the n8n workflow that ingests Qubic whale events, writes to Airtable, and posts alerts to Discord.",
-    "notes": "In the full build, export from n8n via: Workflow → Export → 'Download JSON' and paste that JSON over this file."
-  }
+    "templateCredsSetupCompleted": true,
+    "instanceId": "08c7a9323d2d5dbfdf9860570f848b16926d7b2bc06643becc511d0662d44c05"
+  },
+  "id": "kOplmE7EiYveSSUO",
+  "tags": []
 }
