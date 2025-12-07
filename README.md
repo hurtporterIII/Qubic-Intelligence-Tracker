@@ -1,4 +1,5 @@
-http://googleusercontent.com/image_generation_content/0
+![Cover Image](./demo/assets/Gemini_Generated_Image_56nj9l56nj9l56nj.png)
+
 # 🚀 Qubic Intelligence Whale Tracker
 
 **Real-time detection of large-scale AI compute events on the Qubic Network**
