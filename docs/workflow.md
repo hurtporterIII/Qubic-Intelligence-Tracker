@@ -1,84 +1,63 @@
 # Qubic Intelligence Whale Tracker — n8n Workflow
 
-This document explains the complete n8n workflow that powers the Whale Tracker automation pipeline.
-
-The workflow is intentionally minimal, fast, and easy for judges to import and test.
+This document provides the full breakdown of the n8n workflow that powers the Qubic Intelligence Whale Tracker.  
+The workflow is intentionally simple, auditable, and optimized for hackathon judges to import and test instantly.
 
 ---
 
 ## 🧠 Workflow Summary
 
-The n8n automation performs five main tasks:
+The automation performs five primary tasks:
 
 1. Receive event from EasyConnect  
-2. Transform + clean the data  
-3. Classify compute level  
-4. Log event to Google Sheets  
-5. Send formatted Discord alert  
+2. Transform + clean the payload  
+3. Classify compute level (Whale / High Impact / Standard)  
+4. Append structured row to Google Sheets  
+5. Send formatted alert to Discord  
 
-The entire process completes in under one second.
-
----
-
-## 🟦 1. Webhook Trigger
-
-The workflow begins with the **Webhook** node.
-
-EasyConnect sends a POST request containing:
-- `model_name`  
-- `compute_units`  
-- `confidence`  
-- `timestamp`  
-
-Once received, n8n immediately passes this into the transformation step.
+Total processing time: **under one second**.
 
 ---
 
-## 🔄 2. Transform Event Data
+## ⚙️ Node-By-Node Breakdown
 
-The transformation step ensures predictable data for the rest of the pipeline.
-
-Key actions:
-- Convert compute_units → number  
-- Standardize field names  
-- Add a `source` value (`"EasyConnect"`)  
-- Remove unused or empty fields  
-
-This guarantees consistent formatting for classification and logging.
-
-Example transformed output:
-
-```json
-{
-  "timestamp": "2025-01-01T00:00:00Z",
-  "model_name": "ExampleModel",
-  "compute_units": 53200000000,
-  "confidence_score": 0.97,
-  "source": "EasyConnect"
-}
-```
+### **1. Webhook (EasyConnect → n8n)**
+- Accepts POST requests from EasyConnect  
+- Receives fields such as:  
+  - `model_name`  
+  - `compute_units`  
+  - `confidence`  
+  - `timestamp`
 
 ---
 
-## 🧩 3. Classification Logic
+### **2. Transform Event Data (Function Node)**
+The JavaScript function:
+- normalizes field names  
+- parses number values  
+- ensures every event contains:  
+  - `model_name`  
+  - `compute_units`  
+  - `confidence_score`  
+  - `timestamp`
 
-A Function node assigns a category based on compute units:
+---
 
-| Compute Units | Category |
-|---------------|----------|
+### **3. Classify Compute Level**
+Thresholds:
+
+| Compute Units | Classification |
+|---------------|----------------|
 | **50B+ CU** | Whale |
 | **20B–49B CU** | High Impact |
 | **< 20B CU** | Standard |
 
-The category is appended to the payload and used by Sheets + Discord.
-
 ---
 
-## 📄 4. Append Row to Google Sheets
+### **4. Google Sheets — Append Row**
 
-The cleaned + classified event is written to a Google Sheet.
+Writes the following columns:
 
-Logged Fields:
 - timestamp  
 - model_name  
 - compute_units  
@@ -86,61 +65,49 @@ Logged Fields:
 - category  
 - source  
 
-This provides the official audit trail for the hackathon.
+---
 
-Judges can refresh the sheet and see rows appear in real time.
+### **5. Discord — Whale Alert**
+
+Sends a color-coded message containing:
+
+- model name  
+- compute units  
+- confidence score  
+- classification  
 
 ---
 
-## 📢 5. Discord Alert
+## 🔄 Workflow Diagram (Text)
 
-A final Function or Webhook node formats a rich Discord embed.
-
-Included in the alert:
-- Classification (Whale / High Impact / Standard)  
-- Compute units  
-- Model name  
-- Confidence score  
-- Timestamp  
-
-Whale-level events use stronger visual emphasis.
-
-Example excerpt:
-
-> **🐋 WHALE DETECTED**  
-> Model: ExampleModel  
-> Compute: 53.2B CU  
-> Confidence: 97%  
+EasyConnect Webhook  
+↓  
+Transform Event Data  
+↓  
+Classify Compute Level  
+↓  
+Append Row to Google Sheets  
+↓  
+Send Discord Alert  
 
 ---
 
-## 📦 Workflow Export
+## 📦 Workflow Export File
 
-The full workflow is available in the repository as:
-
-```
-/n8n/workflow.json
-```
-
-Judges can import this directly into any n8n instance with no modifications.
+`/n8n/workflow.json`
 
 ---
 
-## 🛠️ Design Notes
+## 📝 Notes for Judges
 
-- No API keys or tokens required  
-- Pure webhook and native integrations  
-- Fully deterministic execution  
-- Uses only official n8n nodes  
-
-The workflow is built to be hackathon-friendly: zero setup, zero friction.
+- No API keys required  
+- Public-safe integrations only  
+- Fully deterministic, easy to audit  
+- Runs in under one second  
 
 ---
 
-## 📎 Related Files
+## ✅ Summary
 
-- `overview.md` — High-level system explanation  
-- `architecture.md` — How the pipeline is structured  
-- `setup.md` — Instructions for running the system  
-
-
+This workflow transforms raw Qubic compute events into structured logs and high-visibility alerts using minimal moving parts.  
+Its simplicity ensures reliability and clarity during hackathon evaluation.
