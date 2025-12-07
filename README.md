@@ -1,149 +1,186 @@
-Qubic Intelligence Tracker
+# 🚀 Qubic Intelligence Whale Tracker
 
-Qubic Intelligence Tracker is a real-time monitoring system that detects large-scale AI jobs on the Qubic decentralized compute network. Instead of tracking money or token movement, it tracks intelligence creation — compute-heavy AI workloads that indicate something powerful just entered the network.
+**Real-time detection of large-scale AI compute events on the Qubic Network**
 
-This project classifies each AI job based on compute cycles and accuracy, logs events for analysis, and sends structured alerts to Discord for real-time visibility.
+The Qubic Intelligence Whale Tracker is a real-time monitoring and analytics system that detects, classifies, and logs massive AI compute jobs — the “intelligence whales” powering the Qubic decentralized supercomputer.
 
----
+Instead of tracking tokens or transfers, this project tracks **intelligence creation itself**: compute-heavy AI workloads that signal something powerful just emerged on the network.
 
-## What It Does
-
-* Listens for completed AI jobs on the Qubic network
-* Classifies each job as:
-
-  * **Whale** (5B+ cycles, 80%+ accuracy)
-  * **High-Impact Whale** (20B+ cycles, 90%+ accuracy)
-  * **God-Mode Whale** (50B+ cycles, 95%+ accuracy)
-* Flags whether the job ranks in the **top 0.1% compute cycles of the day**
-* Adds a one-line AI interpretation:
-
-  * *Model likely used for: X*
-  * *Risk: Low/Med/High*
-* Logs the full event into Airtable as an intelligence ledger
-* Sends a clean, readable alert to Discord with all key details
-
-This tool reveals intelligence spikes — the moments when the largest and smartest models are deployed on Qubic.
+This system processes incoming job data, assigns intelligence tiers, generates insights, and logs everything into a structured intelligence ledger.
 
 ---
 
-## Why This Matters
+# 🔥 What This System Does
 
-Qubic is not a traditional blockchain. It is a decentralized supercomputer designed for AI compute.
+### ✅ **Listens for job completion events**
 
-The most important activity on Qubic is not transfers — it's training workloads, inference jobs, and model performance.
-
-This project aligns directly with Qubic’s core purpose:
-
-* Tracks compute usage
-* Surfaces large AI events
-* Identifies high-value workloads
-* Helps developers and miners understand network intelligence flow
-
-This solves a real Qubic problem: visibility into major AI compute events.
-
----
-
-## Architecture Overview
-
-### 1. Webhook (Trigger)
-
-Receives job completion payloads at:
+A PowerShell script (or any system) sends job payloads to:
 
 ```
-POST /webhook/intelligence-alert
+POST https://thetempleodp.app.n8n.cloud/webhook/intelligence-alert
 ```
 
-Example payload:
+### ✅ **Classifies every AI job into intelligence tiers**
+
+| Tier                  | Requirements                  |
+| --------------------- | ----------------------------- |
+| **GOD MODE WHALE**    | ≥ 50B cycles & ≥ 95% accuracy |
+| **HIGH-IMPACT WHALE** | ≥ 20B cycles & ≥ 90% accuracy |
+| **WHALE**             | ≥ 5B cycles & ≥ 80% accuracy  |
+
+### ✅ **Generates instant insights**
+
+Each job receives an automated interpretation, such as:
+
+* *“Could be used for climate forecasting”*
+* *“Risk classification: Medium”*
+
+### ✅ **Logs everything automatically**
+
+A live Google Sheets ledger stores:
+
+* timestamp
+* whale tier
+* miner address
+* cycles (billions)
+* accuracy
+* cost estimate
+* insight
+* job ID
+
+### ✅ **Alerts in real time (optional)**
+
+The system can be connected to Discord, Slack, Telegram, emails, dashboards, or any webhook-based platform.
+
+---
+
+# 🎯 Why This Matters
+
+Qubic is not a typical blockchain — it is a **decentralized supercomputer for AI compute**.
+
+The most important events on Qubic are not financial transactions.
+
+They are **intelligence spikes**:
+
+* massive training runs
+* high-accuracy inference jobs
+* powerful model births
+* resource-heavy compute bursts
+
+This system:
+
+* surfaces the LARGEST compute jobs
+* identifies intelligence-heavy workloads
+* helps miners, developers, and analysts understand network behavior
+* creates a public, transparent ledger of intelligence events
+
+**Visibility = power.**
+This tool brings visibility to Qubic’s core activity.
+
+---
+
+# 🧠 Architecture Overview
+
+```
+PowerShell Script → n8n Workflow → Classifier → Insights → Google Sheet Log → (Optional Alerts)
+```
+
+### **1. PowerShell / Client Simulation (Trigger)**
+
+Example payload sent to the webhook:
 
 ```json
 {
-  "job_id": "abc123",
-  "miner": "miner42",
-  "cycles": 52100000000,
-  "accuracy": 0.98,
-  "timestamp": "2025-12-06T00:00:00Z"
+  "job_id": "qubic-1337",
+  "miner": "TEMPLE-RIG-01",
+  "cycles": 62000000000,
+  "accuracy": 0.987,
+  "timestamp": "2025-12-07T04:31:40Z"
 }
 ```
 
----
+### **2. n8n Classifier Node**
 
-### 2. Function Node (Classifier)
+Rules:
 
-Classification rules:
-
-* `cycles >= 50B && accuracy >= 0.95 → GOD_MODE_WHALE`
-* `cycles >= 20B && accuracy >= 0.90 → HIGH_IMPACT_WHALE`
-* `cycles >= 5B && accuracy >= 0.80 → WHALE`
-* Else → ignored
-
-Additional field:
-
-* `is_top_point_one_percent: true/false`
-
----
-
-### 3. AI Interpretation Node
-
-Generates two short fields:
-
-```
-Model likely used for: ________
-Risk: Low/Medium/High
+```text
+cycles >= 50B && accuracy >= 0.95 → GOD_MODE_WHALE
+cycles >= 20B && accuracy >= 0.90 → HIGH_IMPACT_WHALE
+cycles >= 5B  && accuracy >= 0.80 → WHALE
+else → Ignored
 ```
 
----
+### **3. Insight Generation**
 
-### 4. Airtable Logging
+Adds fields like:
 
-Stores:
+* “Model likely used for: pattern detection”
+* “Risk assessment: Low”
 
-* job_id
-* miner
-* cycles
-* accuracy
-* tag
-* is_top_point_one_percent
-* likely_use
-* risk
-* timestamp
+### **4. Intelligence Ledger (Google Sheets)**
 
-Creates a permanent intelligence ledger for Qubic.
+Every event is permanently stored with timestamp, classification, and metadata.
 
----
-
-### 5. Discord Alert
+### **5. Optional: Discord Alert**
 
 Example:
 
 ```
-GOD MODE WHALE DETECTED
-Cycles: 52.1B   Accuracy: 98%
-Miner: miner42
-Top 0.1%: Yes
-Model likely used for: climate forecasting
-Risk: Low
-https://qubic.network/job/abc123
+🐳 GOD MODE WHALE DETECTED  
+Cycles: 62B  
+Accuracy: 98.7%  
+Miner: TEMPLE-RIG-01  
+Insight: Could predict floods or solve murders  
+Job: qubic-1337
 ```
 
 ---
 
-## Demo Instructions
+# 🧪 Demo Instructions (Simulate a Whale Event)
 
-Simulate a Qubic job event:
+Run this PowerShell script:
 
-```bash
-curl -X POST \
-  https://thetempleodp.app.n8n.cloud/webhook/intelligence-alert \
-  -H "Content-Type: application/json" \
-  -d '{
-        "job_id": "demo123",
-        "miner": "miner_demo",
-        "cycles": 60000000000,
-        "accuracy": 0.96,
-        "timestamp": "2025-12-06T00:00:00Z"
-      }'
+```powershell
+Invoke-RestMethod -Uri "https://thetempleodp.app.n8n.cloud/webhook/intelligence-alert" -Method POST -Body (@{
+    timestamp       = (Get-Date).ToString("o")
+    whale_tier      = "GOD MODE WHALE 🐳💀"
+    miner_address   = "TEMPLE-RIG-01"
+    cycles_billions = 62
+    accuracy_percent= 98.7
+    usd_cost_estimate = 11.50
+    insight         = "This thing could predict floods or solve murders"
+    job_id          = "qubic-1337"
+} | ConvertTo-Json) -ContentType "application/json"
 ```
 
-This triggers classification, AI interpretation, Airtable logging, and a Discord alert.
+This triggers:
+
+* classification
+* logging
+* insight creation
+* (optional) alerting
+
+---
+
+# 🚀 Future Enhancements
+
+* Real-time dashboard
+* Heatmap of compute distribution
+* Whale prediction model
+* Anomaly detection engine
+* Miner reputation scoring
+* Multi-network intelligence merging
+
+---
+
+# 📂 Repository Layout
+
+```
+/powershell/trigger-example.ps1
+/n8n/exported-workflow.json
+/docs/architecture.png
+/demo/sample-whale-log.csv
+README.md
+```
 
 ---
