@@ -10,9 +10,9 @@ This system processes incoming job data, assigns intelligence tiers, generates i
 
 ---
 
-# 🔥 What This System Does
+## 🔥 What This System Does
 
-### ✅ **Listens for job completion events**
+### ✅ Listens for job completion events
 
 A PowerShell script (or any system) sends job payloads to:
 
@@ -20,7 +20,9 @@ A PowerShell script (or any system) sends job payloads to:
 POST https://thetempleodp.app.n8n.cloud/webhook/intelligence-alert
 ```
 
-### ✅ **Classifies every AI job into intelligence tiers**
+---
+
+### ✅ Classifies every AI job into intelligence tiers
 
 | Tier                  | Requirements                  |
 | --------------------- | ----------------------------- |
@@ -28,14 +30,18 @@ POST https://thetempleodp.app.n8n.cloud/webhook/intelligence-alert
 | **HIGH-IMPACT WHALE** | ≥ 20B cycles & ≥ 90% accuracy |
 | **WHALE**             | ≥ 5B cycles & ≥ 80% accuracy  |
 
-### ✅ **Generates instant insights**
+---
+
+### ✅ Generates instant insights
 
 Each job receives an automated interpretation, such as:
 
-* *“Could be used for climate forecasting”*
-* *“Risk classification: Medium”*
+* “Could be used for climate forecasting”
+* “Risk classification: Medium”
 
-### ✅ **Logs everything automatically**
+---
+
+### ✅ Logs everything automatically
 
 A live Google Sheets ledger stores:
 
@@ -48,18 +54,19 @@ A live Google Sheets ledger stores:
 * insight
 * job ID
 
-### ✅ **Alerts in real time (optional)**
+---
 
-The system can be connected to Discord, Slack, Telegram, emails, dashboards, or any webhook-based platform.
+### ✅ Alerts in real time (optional)
+
+The system can be connected to Discord, Slack, Telegram, email, dashboards, or any webhook-based platform.
 
 ---
 
-# 🎯 Why This Matters
+## 🎯 Why This Matters
 
-Qubic is not a typical blockchain — it is a **decentralized supercomputer for AI compute**.
+Qubic is not a typical blockchain — it is a **decentralized supercomputer** for AI compute.
 
 The most important events on Qubic are not financial transactions.
-
 They are **intelligence spikes**:
 
 * massive training runs
@@ -69,23 +76,25 @@ They are **intelligence spikes**:
 
 This system:
 
-* surfaces the LARGEST compute jobs
+* surfaces the **largest compute jobs**
 * identifies intelligence-heavy workloads
 * helps miners, developers, and analysts understand network behavior
-* creates a public, transparent ledger of intelligence events
+* creates a **transparent ledger** of intelligence events
 
 **Visibility = power.**
-This tool brings visibility to Qubic’s core activity.
+This tool gives visibility into Qubic’s core activity.
 
 ---
 
-# 🧠 Architecture Overview
+## 🧠 Architecture Overview
 
 ```
-PowerShell Script → n8n Workflow → Classifier → Insights → Google Sheet Log → (Optional Alerts)
+PowerShell Script → n8n Workflow → Classifier → Insights → Google Sheets Log → (Optional Alerts)
 ```
 
-### **1. PowerShell / Client Simulation (Trigger)**
+---
+
+### 1. PowerShell / Client Simulation (Trigger)
 
 Example payload sent to the webhook:
 
@@ -99,29 +108,37 @@ Example payload sent to the webhook:
 }
 ```
 
-### **2. n8n Classifier Node**
+---
+
+### 2. n8n Classifier Node
 
 Rules:
 
-```text
+```
 cycles >= 50B && accuracy >= 0.95 → GOD_MODE_WHALE
 cycles >= 20B && accuracy >= 0.90 → HIGH_IMPACT_WHALE
 cycles >= 5B  && accuracy >= 0.80 → WHALE
 else → Ignored
 ```
 
-### **3. Insight Generation**
+---
+
+### 3. Insight Generation
 
 Adds fields like:
 
 * “Model likely used for: pattern detection”
 * “Risk assessment: Low”
 
-### **4. Intelligence Ledger (Google Sheets)**
+---
+
+### 4. Intelligence Ledger (Google Sheets)
 
 Every event is permanently stored with timestamp, classification, and metadata.
 
-### **5. Optional: Discord Alert**
+---
+
+### 5. Optional: Discord Alert
 
 Example:
 
@@ -136,20 +153,20 @@ Job: qubic-1337
 
 ---
 
-# 🧪 Demo Instructions (Simulate a Whale Event)
+## 🧪 Demo Instructions (Simulate a Whale Event)
 
 Run this PowerShell script:
 
 ```powershell
 Invoke-RestMethod -Uri "https://thetempleodp.app.n8n.cloud/webhook/intelligence-alert" -Method POST -Body (@{
-    timestamp       = (Get-Date).ToString("o")
-    whale_tier      = "GOD MODE WHALE 🐳💀"
-    miner_address   = "TEMPLE-RIG-01"
-    cycles_billions = 62
-    accuracy_percent= 98.7
+    timestamp         = (Get-Date).ToString("o")
+    whale_tier        = "GOD MODE WHALE 🐳💀"
+    miner_address     = "TEMPLE-RIG-01"
+    cycles_billions   = 62
+    accuracy_percent  = 98.7
     usd_cost_estimate = 11.50
-    insight         = "This thing could predict floods or solve murders"
-    job_id          = "qubic-1337"
+    insight           = "This thing could predict floods or solve murders"
+    job_id            = "qubic-1337"
 } | ConvertTo-Json) -ContentType "application/json"
 ```
 
@@ -162,7 +179,7 @@ This triggers:
 
 ---
 
-# 🚀 Future Enhancements
+## 🚀 Future Enhancements
 
 * Real-time dashboard
 * Heatmap of compute distribution
@@ -173,7 +190,7 @@ This triggers:
 
 ---
 
-# 📂 Repository Layout
+## 📂 Repository Layout
 
 ```
 /powershell/trigger-example.ps1
@@ -184,3 +201,16 @@ README.md
 ```
 
 ---
+
+# ✅ This README is ready for GitHub.
+
+Nothing else needs to be changed.
+
+If you want, I’ll now generate:
+
+* **Your slide deck text**
+* **Your video script**
+* **Your cover image prompt**
+* **Your short + long description for lablab**
+
+Just tell me what you want next.
