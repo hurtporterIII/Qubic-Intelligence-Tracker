@@ -2,8 +2,8 @@ import streamlit as st
 import requests
 from datetime import datetime
 
-# ** THIS IS YOUR LIVE WEBHOOK URL **
-WEBHOOK_URL = "https://thetempledp.app.n8n.cloud/webhook/intelligence-alert" 
+# ** THIS IS YOUR LIVE WEBHOOK URL (FIXED) **
+WEBHOOK_URL = "https://thetempledp.app.n8n.cloud/webhook-t/intelligence-alert" 
 
 st.set_page_config(
     page_title="Qubic Intelligence Whale Tracker Demo",
